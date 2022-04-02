@@ -7,6 +7,8 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {Paper} from "@mui/material";
+import { Link } from "react-router-dom";
+
 
 const Footer = () => {
     const [value, setValue] = React.useState(0);
@@ -19,11 +21,11 @@ const Footer = () => {
                     setValue(newValue);
                 }}
             >
-                <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
-                <BottomNavigationAction label="Friends" icon={<PeopleIcon />} />
-                <BottomNavigationAction label="Create" icon={<AddCircleIcon fontSize={"large"}/>} />
-                <BottomNavigationAction label="Meets" icon={<EventNoteIcon />} />
-                <BottomNavigationAction label="Alerts" icon={<NotificationsIcon />} />
+                <BottomNavigationAction label="Settings" icon={<SettingsIcon />} component={Link} to="/meets" />
+                <BottomNavigationAction label="Friends" icon={<PeopleIcon />} component={Link} to="/meets" />
+                <BottomNavigationAction label="Create" icon={<AddCircleIcon fontSize={"large"}/>} component={Link} to="/meets" />
+                <BottomNavigationAction label="Meets" icon={<EventNoteIcon />} component={Link} to="/meets" />
+                <BottomNavigationAction label="Alerts" icon={<NotificationsIcon />} component={Link} to="/meets" />
             </BottomNavigation>
         </Paper>
     );

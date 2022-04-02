@@ -2,6 +2,8 @@ import React from "react";
 import Footer from "./Footer";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
+import Header from "./Header";
+import Toolbar from "@mui/material/Toolbar";
 
 const RootBox = styled(Box)(({theme}) => ({
     flexGrow: 1,
@@ -16,10 +18,13 @@ const ContentBox = styled(Box)(({theme}) => ({
 const Layout = ({children}) => {
     return (
         <RootBox>
-            <ContentBox>
-                {children}
-            </ContentBox>
-            <Footer />
+            <Header>
+                <ContentBox>
+                    <Toolbar />
+                    {children}
+                </ContentBox>
+                <Footer/>
+            </Header>
         </RootBox>
     );
 };

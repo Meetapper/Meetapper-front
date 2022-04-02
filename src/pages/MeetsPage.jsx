@@ -1,11 +1,11 @@
 import * as React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import {Accordion, AccordionDetails, AccordionSummary} from "@mui/material";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -27,14 +27,6 @@ function TabPanel(props) {
     );
 }
 
-
-function a11yProps(index) {
-    return {
-        id: `full-width-tab-${index}`,
-        'aria-controls': `full-width-tabpanel-${index}`,
-    };
-}
-
 const MeetsPage = () => {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
@@ -48,21 +40,30 @@ const MeetsPage = () => {
     };
 
     return (
-        <Box sx={{ bgcolor: 'background.paper', width: 500 }}>
-            <AppBar position="static">
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor="secondary"
-                    textColor="inherit"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                >
-                    <Tab label="Item One" />
-                    <Tab label="Item Two" />
-                    <Tab label="Item Three" />
-                </Tabs>
-            </AppBar>
+        <>
+        {/*<Box sx={{ bgcolor: 'background.paper' }}>*/}
+            <Accordion elevation={0}>
+                <AccordionSummary>
+                    <Typography>Show filters</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                        malesuada lacus ex, sit amet blandit leo lobortis eget.
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="secondary"
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+            >
+                <Tab label="Active" />
+                <Tab label="Archived" />
+            </Tabs>
             <SwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={value}
@@ -74,11 +75,9 @@ const MeetsPage = () => {
                 <TabPanel value={value} index={1} dir={theme.direction}>
                     Item Two
                 </TabPanel>
-                <TabPanel value={value} index={2} dir={theme.direction}>
-                    Item Three
-                </TabPanel>
             </SwipeableViews>
-        </Box>
+        {/*</Box>*/}
+        </>
     );
 }
 
