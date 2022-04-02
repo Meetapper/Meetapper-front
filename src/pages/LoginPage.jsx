@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword } from "../Firebase.js";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -15,8 +16,8 @@ function LoginPage() {
         if (user) navigate("/dashboard");
     }, [user, loading]);
     return (
-        <div className="login">
-            <div className="login__container">
+        <Grid container>
+            <Grid>
                 <input
                     type="text"
                     className="login__textBox"
@@ -37,14 +38,14 @@ function LoginPage() {
                 >
                     Login
                 </button>
-                <div>
+                <Grid>
                     <Link to="/reset">Forgot Password</Link>
-                </div>
-                <div>
+                </Grid>
+                <Grid>
                     Don't have an account? <Link to="/register">Register</Link> now.
-                </div>
-            </div>
-        </div>
+                </Grid>
+            </Grid>
+        </Grid>
     );
 }
 export default LoginPage;
