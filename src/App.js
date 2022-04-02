@@ -34,14 +34,14 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline>
-                <Layout>
-                    <Router>
+                <Router>
+                    <Layout>
                         <Routes>
                             <Route path="/" element={<LoginPage/>}/>
                             <Route path="/meets" element={<MeetsPage/>}/>
                         </Routes>
-                    </Router>
-                </Layout>
+                    </Layout>
+                </Router>
             </CssBaseline>
         </ThemeProvider>
     );
