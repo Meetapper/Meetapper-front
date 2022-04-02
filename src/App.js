@@ -1,55 +1,48 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import LoginPage from './pages/LoginPage';
-import {createTheme, ThemeProvider} from "@mui/material";
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import Layout from "./components/Layout";
+import MeetsPage from "./pages/MeetsPage";
 
 const theme = createTheme({
     palette: {
-        mode: "dark",
+        // mode: "light",
         primary: {
-            main: "#3ED7C2",
+            main: "#661f31"
         },
         secondary: {
-            main: "#ff4b3a",
+            main: "#000000",
         },
         background: {
-            default: "rgba(8,1,9,1)",
-            paper: "rgba(8,1,9,1)",
+            default: "#f0f0f0",
+            paper: "#f5f5f5"
         },
-        text: {
-            primary: "rgba(173,186,199,1)",
-            secondary: "rgba(173,186,199,0.7)",
-            disabled: "rgba(173,186,199,0.5)",
-            hint: "rgba(173,186,199,0.4)",
-        },
+        //     text: {
+        //         primary: "rgba(173,186,199,1)",
+        //         secondary: "rgba(173,186,199,0.7)",
+        //         disabled: "rgba(173,186,199,0.5)",
+        //         hint: "rgba(173,186,199,0.4)",
+        //     },
     },
-    // typography: {
-    //     fontFamily: ["Lexend Deca", "sans-serif"].join(","),
-    // },
-    // overrides: {
-    //     MuiCssBaseline: {
-    //         "@global": {
-    //             body: {
-    //                 background: "linear-gradient(40deg, #200122, #6f0000)",
-    //                 backgroundRepeat: "no-repeat",
-    //                 backgroundAttachment: "fixed",
-    //             },
-    //         },
-    //     },
-    // },
+    typography: {
+        fontFamily: ["Lexend Deca", "sans-serif"].join(","),
+    },
 })
 
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            <Layout>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<LoginPage/>}/>
-                    </Routes>
-                </Router>
-            </Layout>
+            <CssBaseline>
+                <Layout>
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<LoginPage/>}/>
+                            <Route path="/meets" element={<MeetsPage/>}/>
+                        </Routes>
+                    </Router>
+                </Layout>
+            </CssBaseline>
         </ThemeProvider>
     );
 }
