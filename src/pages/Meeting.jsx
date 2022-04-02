@@ -1,18 +1,18 @@
 import React from "react";
 import MeetingSummary from "../components/MeetingSummary"
 import Chat from "../components/Chat";
-import {Grid} from "@mui/material";
+import { Box} from "@mui/material";
 
 const Meeting = () => {
     return (
-        <Grid container>
-            <Grid item>
+        <Box display="flex" sx={{ flexDirection: "column" }}>
+            <Box>
                 <MeetingSummary/>
-            </Grid>
-            <Grid item>
+            </Box>
+            <Box flexGrow={2}>
                 <Chat/>
-            </Grid>
-        </Grid>
+            </Box>
+        </Box>
     );
 }
 
