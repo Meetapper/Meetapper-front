@@ -6,6 +6,7 @@ import Logout from './pages/Logout'
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import Layout from "./components/Layout";
 import MeetsPage from "./pages/MeetsPage";
+import EventCreation from './pages/EventCreation';
 
 const theme = createTheme({
     palette: {
@@ -42,6 +43,7 @@ function App() {
                             <Route path="/" element={<LoginPage />}/>
                             <Route path="/register" element={<Register />}/>
                             <Route path="/logout" element={<Logout />}/>
+                            <Route path="/create-event" exact element={<EventCreation />}/>
                             <Route path="/meets" element={<MeetsPage/>}/>
                         </Routes>
                     </Layout>
