@@ -5,8 +5,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {Accordion, AccordionDetails, AccordionSummary, Divider, Grid, TextField} from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Divider, Grid } from "@mui/material";
 import Event from "../components/MeetsPage/Event";
 
 
@@ -54,7 +53,7 @@ const MeetsPage = () => {
     };
 
     return (
-        <>
+        <div>
             {/*<Box sx={{ bgcolor: 'background.paper' }}>*/}
             {/*    <TextField />*/}
             {/*<Accordion elevation={0}>*/}
@@ -120,7 +119,7 @@ const MeetsPage = () => {
                 </TabPanel>
             </SwipeableViews>
             {/*</Box>*/}
-        </>
+        </div>
     );
 }
 

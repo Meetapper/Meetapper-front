@@ -42,7 +42,7 @@ const Header = (props) => {
         switch (pathname) {
             case "/meets": return "Events"
             case "/create-event": return "Create Event"
-            default: return "Meatapper"
+            default: return "Meetapper"
         }
     }
 

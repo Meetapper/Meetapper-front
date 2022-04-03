@@ -7,18 +7,27 @@ import HelpIcon from '@mui/icons-material/Help';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import {Link} from "react-router-dom";
 
+export function doestAttendToIcon(doesAttent) {
+    switch (doesAttent) {
+        case "yes": return <CheckCircleIcon sx={{ color: "#2e7d32"}}/>
+        case "no": return <RemoveCircleIcon sx={{ color: "#d23a07"}}/>
+        case "maybe": return <HelpIcon sx={{ color: "#ffcc00"}}/>
+        default: return <PanoramaFishEyeIcon sx={{ color: "gray"}}/>
+    }
+}
+
+export function doestAttendToIconLarge(doesAttent) {
+    switch (doesAttent) {
+        case "yes": return <CheckCircleIcon fontSize="large" sx={{ color: "#2e7d32"}}/>
+        case "no": return <RemoveCircleIcon fontSize="large" sx={{ color: "#d23a07"}}/>
+        case "maybe": return <HelpIcon fontSize="large" sx={{ color: "#ffcc00"}}/>
+        default: return <PanoramaFishEyeIcon fontSize="large" sx={{ color: "gray"}}/>
+    }
+}
+
 const Event = ({event, doesAttend}) => {
 
     const {id, title, place, date, description, owner } = event
-
-    function doestAttendToIcon(doesAttent) {
-        switch (doesAttent) {
-            case "yes": return <CheckCircleIcon sx={{ color: "green"}}/>
-            case "no": return <RemoveCircleIcon sx={{ color: "red"}}/>
-            case "maybe": return <HelpIcon sx={{ color: "yellow"}}/>
-            default: return <PanoramaFishEyeIcon sx={{ color: "gray"}}/>
-        }
-    }
 
     return (
         <Link to={`/meeting/${id}`} style={{ textDecoration: "none" }}>
@@ -28,7 +37,7 @@ const Event = ({event, doesAttend}) => {
                     // subheader={date.toLocaleString()}
                     action={
                         <IconButton aria-label="settings">
-                            {doestAttendToIcon(doesAttend)}
+                            {doestAttendToIconLarge(doesAttend)}
                         </IconButton>
                     }
                 />
