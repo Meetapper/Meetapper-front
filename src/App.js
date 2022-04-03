@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import {createTheme, ThemeProvider, CssBaseline} from "@mui/material";
 import Layout from "./components/Layout";
 import EventCreation from './pages/EventCreation';
+import FriendsList from "./pages/FriendsList";
 import Register from './pages/Register';
 import Logout from './pages/Logout';
 import MeetsPage from './pages/MeetsPage';
@@ -46,24 +47,25 @@ const theme = createTheme({
 })
 
 function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<LoginPage />}/>
-              <Route path="/register" element={<Register />}/>
-              <Route path="/logout" element={<Logout />}/>
-              <Route path="/create-event" exact element={<EventCreation />}/>
-              <Route path="/meets" element={<MeetsPage/>}/>
-              <Route path="/meeting/:id" element={<Meeting/>}/>
-            </Routes>
-          </Layout>
-        </Router>
-      </CssBaseline>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline>
+                <Router>
+                    <Layout>
+                        <Routes>
+                            <Route path="/" element={<LoginPage />}/>
+                            <Route path="/register" element={<Register />}/>
+                            <Route path="/logout" element={<Logout />}/>
+                            <Route path="/create-event" exact element={<EventCreation />}/>
+                            <Route path="/meets" element={<MeetsPage/>}/>
+                            <Route path="/friends" element={<FriendsList/>}/>
+                            <Route path="/meeting/:id" element={<Meeting/>}/>
+                        </Routes>
+                    </Layout>
+                </Router>
+            </CssBaseline>
+        </ThemeProvider>
+    );
 }
 
 export default App;
