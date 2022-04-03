@@ -9,11 +9,9 @@ import Friend from "../components/Friend";
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 async function searchUser(userName) {
-    console.log(userName);
     const q = query(collection(db, "users"), where("name", "==", userName));
     const retrievedUsers = [];
     await getDocs(q).then(usr => {
-        console.log(usr);
         usr.forEach(result => {
             retrievedUsers.push(result.data());
         })
@@ -34,7 +32,7 @@ const Friends = () => {
     return (
         <Grid container direction="column">
             <Grid item>
-                <TextField 
+                <TextField
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="search for users"
@@ -51,8 +49,8 @@ const Friends = () => {
             </Grid>
             <Grid item sx={{ height: "20px" }}></Grid>
             <Grid item>
-                {!search.length 
-                ? 
+                {!search.length
+                ?
                     <FriendsList buttonIcon={<PersonRemoveIcon />} buttonAction={() => null}/>
                 :
                     searchRes?.map(friend => <Friend key={friend} friend={friend} icon={<MailIcon />} action={() => null}/>)// search response users here

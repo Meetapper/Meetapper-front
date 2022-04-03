@@ -50,7 +50,7 @@ const Header = (props) => {
         <React.Fragment>
             <CssBaseline/>
             <HideOnScroll {...props}>
-                <AppBar>
+                <AppBar sx={{padding: "4px"}}>
                     <Toolbar>
                         <Typography variant="h4" align="center" sx={{flexGrow: 1, textAlign: 'center'}}>
                             {pathToName(pathname)}

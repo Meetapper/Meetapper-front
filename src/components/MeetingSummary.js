@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { Button, ButtonGroup, Grid, Typography} from "@mui/material"
+import React, {useEffect, useState} from "react";
+import {Button, ButtonGroup, Grid, Typography} from "@mui/material"
 import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
@@ -13,32 +13,20 @@ import {db} from "../Firebase";
 import {doc, getDoc, updateDoc} from "firebase/firestore";
 import {mainUserId} from "../MainUserId";
 
-// const title = "Biba u maćka";
-// const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-// const location = "location";
-// const date = "01.04.2022";
-// const numOfPeople = "2/10";
-
 const MeetingSummary = () => {
-    const [declare, setDeclare] = useState(0)
-    const { title, place: location, description, date } = useLocation().state.event;
+    const [declare, setDeclare] = useState("")
+    const { title, place: location, description, date, participants } = useLocation().state.event;
+    const participants2 = participants.filter((p) => p !== mainUserId)
     const eventId = useLocation().state.id;
+
+    const [attendsState, setAttendsState] = useState([...Array(participants2.length)].fill("maybe"));
 
     async function setAttend(val) {
         setDeclare(val);
         const userRef = doc(db, "users", mainUserId);
         const user = await getDoc(userRef);
 
-        let newValue;
-
-        switch(val) {
-            case 1: newValue = "no"
-                break;
-            case 2: newValue = "maybe"
-                break;
-            case 3: newValue = "yes"
-                break;
-        }
+        let newValue = val;
 
         const newMeetingsStatus = user.data().meetings;
         newMeetingsStatus[eventId] = newValue;
@@ -46,17 +34,28 @@ const MeetingSummary = () => {
             meetings: newMeetingsStatus
         })
     }
-    console.log(eventId);
 
-    async function getUser() {
-        const userRef = doc(db, "users", mainUserId);
+    async function getUser(userId) {
+        const userRef = doc(db, "users", userId);
         const user = await getDoc(userRef);
         return user.data();
     }
 
-    getUser().then(value => {
+
+    getUser(mainUserId).then(value => {
         setDeclare(value.meetings[eventId]);
     })
+
+
+    useEffect(() => {
+        participants2.forEach((p, index) => {
+            getUser(p).then((tmp) => {
+                const clone = [...attendsState]
+                clone[index] = tmp.meetings[eventId];
+                setAttendsState([...clone])
+            })
+        })
+    }, [])
 
     return (
         <Grid container spacing={0.5}   alignItems="center" justify="center">
@@ -76,27 +75,22 @@ const MeetingSummary = () => {
             <Grid item xs={4}   alignItems="center"
                   justify="center">
                 <ButtonGroup variant="outlined" size="small">
-                    <Button sx={declare === 0 || declare === 1 ? {color: "red"} : ""} onClick={() => setAttend(1)}>
-                        {declare === 1 ? <RemoveCircleIcon/> : <RemoveIcon/> }
+                    <Button sx={declare === "" || declare === "no" ? {color: "#d23a07"} : ""} onClick={() => setAttend("no")}>
+                        {declare === "no" ? <RemoveCircleIcon/> : <RemoveIcon/> }
                     </Button>
-                    <Button sx={declare === 0 || declare === 2 ? {color: "orange"} : ""} onClick={() => setAttend(2)}>
-                        {declare === 2 ? <HelpIcon/> : <QuestionMarkIcon/> }
+                    <Button sx={declare === "" || declare === "maybe" ? {color: "#ffcc00"} : ""} onClick={() => setAttend("maybe")}>
+                        {declare === "maybe" ? <HelpIcon/> : <QuestionMarkIcon/> }
                     </Button>
-                    <Button sx={declare === 0 || declare === 3 ? {color: "green"} : ""} onClick={() => setAttend(3)}>
-                        {declare === 3 ? <CheckCircleIcon/> : <CheckIcon/> }
+                    <Button sx={declare === "" || declare === "yes" ? {color: "#2e7d32"} : ""} onClick={() => setAttend("yes")}>
+                        {declare === "yes" ? <CheckCircleIcon/> : <CheckIcon/> }
                     </Button>
                 </ButtonGroup>
             </Grid>
             <Grid item xs={8}>
                 <AvatarGroup max={6}>
-                    <FriendAvatar name={"HS"} doesAttend={"yes"}/>
-                    <FriendAvatar name={"HS"} doesAttend={"yes"}/>
-                    <FriendAvatar name={"HS"} doesAttend={"yes"}/>
-                    <FriendAvatar name={"HS"} doesAttend={"yes"}/>
-                    <FriendAvatar name={"HS"} doesAttend={"maybe"}/>
-                    <FriendAvatar name={"HS"} doesAttend={"maybe"}/>
-                    <FriendAvatar name={"HS"} doesAttend={"maybe"}/>
-                    <FriendAvatar name={"HS"} doesAttend={"no"}/>
+                    {participants2.map((p, index) => {
+                        return <FriendAvatar name={p} doesAttend={attendsState[index]}/>
+                    })}
                 </AvatarGroup>
             </Grid>
             <Grid item xs={12}>
