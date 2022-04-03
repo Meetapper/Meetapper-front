@@ -1,13 +1,15 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import {useTheme} from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Divider, Grid } from "@mui/material";
+import {Divider, Grid} from "@mui/material";
 import Event from "../components/MeetsPage/Event";
-
+import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
+import {db} from "../Firebase";
+import {mainUserId} from "../MainUserId";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -29,7 +31,6 @@ function TabPanel(props) {
     );
 }
 
-
 const eventMock = {
     id: "1",
     title: "Git impra u Adama",
@@ -40,7 +41,38 @@ const eventMock = {
 }
 
 
+async function getMeetsStatuses(myId) {
+    const docRef = doc(db, "users", myId);
+    return await getDoc(docRef);
+}
+
+function getMeets(meetsIds) {
+    const arr = [];
+    Object.keys(meetsIds).forEach((id) => {
+        const docRef = doc(db, "meetings", id);
+        getDoc(docRef).then((val) => {
+            arr.push(
+                {
+                    event: {...val.data(), date: new Date(val.data().date.seconds * 1000)},
+                    doesAttend: meetsIds[id]
+                }
+            )
+        })
+    })
+    return arr;
+}
+
 const MeetsPage = () => {
+    const [meets, setMeets] = useState([]);
+
+    useEffect(() => {
+        getMeetsStatuses(mainUserId).then(async (tmp) => {
+            const arr = getMeets(tmp.data().meetings);
+            await new Promise(r => setTimeout(r, 100));
+            setMeets(arr);
+        })
+    }, [])
+
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
 
@@ -54,19 +86,6 @@ const MeetsPage = () => {
 
     return (
         <div>
-            {/*<Box sx={{ bgcolor: 'background.paper' }}>*/}
-            {/*    <TextField />*/}
-            {/*<Accordion elevation={0}>*/}
-            {/*    <AccordionSummary expandIcon={<ExpandMoreIcon />}>*/}
-            {/*        <Typography>Advanced filters</Typography>*/}
-            {/*    </AccordionSummary>*/}
-            {/*    <AccordionDetails>*/}
-            {/*        <Typography>*/}
-            {/*            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse*/}
-            {/*            malesuada lacus ex, sit amet blandit leo lobortis eget.*/}
-            {/*        </Typography>*/}
-            {/*    </AccordionDetails>*/}
-            {/*</Accordion>*/}
             <Tabs
                 value={value}
                 onChange={handleChange}
@@ -85,37 +104,39 @@ const MeetsPage = () => {
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <Grid container>
-                        <Grid item xs={12}>
-                            <Event event={eventMock} doesAttend={"yes"}/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Divider/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Event event={eventMock} doesAttend={"no"}/>
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <Divider/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Event event={eventMock} doesAttend={"maybe"}/>
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <Divider/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Event event={eventMock} doesAttend={"lkjlkj"}/>
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <Divider/>
-                        </Grid>
+                        {meets.sort((a, b) => a.event.date.getTime() - b.event.date.getTime())
+                            .filter((a) => a.event.date.getTime() >= new Date().getTime() )
+                            .map((meet) => {
+                            return (
+                                <>
+                                    <Grid item xs={12}>
+                                        <Event event={meet.event} doesAttend={meet.doesAttend}/>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Divider/>
+                                    </Grid>
+                                </>
+                            )
+                        })}
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <Event event={eventMock}/>
+                    <Grid container>
+                        {meets.sort((a, b) => b.event.date.getTime() - a.event.date.getTime())
+                            .filter((a) => a.event.date.getTime() < new Date().getTime() )
+                            .map((meet) => {
+                                return (
+                                    <>
+                                        <Grid item xs={12}>
+                                            <Event event={meet.event} doesAttend={meet.doesAttend}/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Divider/>
+                                        </Grid>
+                                    </>
+                                )
+                            })}
+                    </Grid>
                 </TabPanel>
             </SwipeableViews>
             {/*</Box>*/}

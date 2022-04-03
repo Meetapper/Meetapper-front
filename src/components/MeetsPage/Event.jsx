@@ -27,6 +27,7 @@ export function doestAttendToIconLarge(doesAttent) {
 
 const Event = ({event, doesAttend}) => {
 
+
     const {id, title, place, date, description, owner } = event
 
     return (
