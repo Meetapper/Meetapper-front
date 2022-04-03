@@ -9,6 +9,9 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {AvatarGroup} from "@mui/lab";
 import FriendAvatar from "./FriendAvatar";
 import {useLocation} from "react-router-dom";
+import {db} from "../Firebase";
+import {doc, getDoc, updateDoc} from "firebase/firestore";
+import {mainUserId} from "../MainUserId";
 
 // const title = "Biba u maćka";
 // const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -21,12 +24,40 @@ const MeetingSummary = () => {
     const { title, place: location, description, date } = useLocation().state.event;
     const eventId = useLocation().state.id;
 
-    function setAttend(val) {
+    async function setAttend(val) {
         setDeclare(val);
+        const userRef = doc(db, "users", mainUserId);
+        const user = await getDoc(userRef);
 
-        //TODO call to send your declaration
+        let newValue;
+
+        switch(val) {
+            case 1: newValue = "no"
+                break;
+            case 2: newValue = "maybe"
+                break;
+            case 3: newValue = "yes"
+                break;
+        }
+
+        const newMeetingsStatus = user.data().meetings;
+        newMeetingsStatus[eventId] = newValue;
+        await updateDoc(userRef, {
+            meetings: newMeetingsStatus
+        })
     }
-console.log(eventId);
+    console.log(eventId);
+
+    async function getUser() {
+        const userRef = doc(db, "users", mainUserId);
+        const user = await getDoc(userRef);
+        return user.data();
+    }
+
+    getUser().then(value => {
+        setDeclare(value.meetings[eventId]);
+    })
+
     return (
         <Grid container spacing={0.5}   alignItems="center" justify="center">
             <Grid container item xs={12}>
