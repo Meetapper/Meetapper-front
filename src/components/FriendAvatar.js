@@ -1,6 +1,13 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Avatar, Badge} from "@mui/material";
 import {doestAttendToIcon} from "./MeetsPage/Event";
+import {doc, getDoc} from "firebase/firestore";
+import {db} from "../Firebase";
+
+async function getUser(userId) {
+    const docRef = doc(db, "users", userId);
+    return await getDoc(docRef);
+}
 
 export var stringToColour = function(str) {
     var hash = 0;
@@ -16,6 +23,17 @@ export var stringToColour = function(str) {
 }
 
 const FriendAvatar = ({name, doesAttend}) => {
+
+    const [user, setUser] = useState("undefined");
+
+    useEffect(() => {
+        (async () => {
+            getUser(name).then((u) => {
+                setUser(u.data().name);
+            })
+        })()
+    }, [])
+
     return(
         <Badge
             overlap="circular"
@@ -24,7 +42,7 @@ const FriendAvatar = ({name, doesAttend}) => {
                 doestAttendToIcon(doesAttend)
             }
         >
-            <Avatar sx={{ bgcolor: stringToColour(name)}} alt={name.toUpperCase()} src="/static/images/avatar/2.jpg" />
+            <Avatar sx={{ bgcolor: stringToColour("h" + user)}} alt={user.toUpperCase()} src="/static/images/avatar/2.jpg" />
         </Badge>
     )
 }

@@ -23,7 +23,27 @@ const mockMessages = [
         message: "pytasz dzika",
         name: 'You',
         owner: true
-    }
+    },
+    {
+        message: "mrozi",
+        name: "Piotr Berezka",
+        owner: false
+    },
+    {
+        message: "lets gooo",
+        name: "Patryk Skupien",
+        owner: false
+    },
+    {
+        message: "chillera utopia",
+        name: "Adam Berezka",
+        owner: false
+    },
+    {
+        message: "tylko nie wrzucaj zenaduwy patryk na czat",
+        name: "You",
+        owner: true
+    },
 ];
 
 const Chat = () => {

@@ -85,8 +85,8 @@ const MeetsPage = () => {
                 variant="fullWidth"
                 aria-label="full width tabs example"
             >
-                <Tab label="Active"/>
-                <Tab label="Archived"/>
+                <Tab label="Incoming"/>
+                <Tab label="Archive"/>
             </Tabs>
             <SwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
