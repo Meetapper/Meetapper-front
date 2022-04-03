@@ -106,11 +106,11 @@ const MeetsPage = () => {
                     <Grid container>
                         {meets.sort((a, b) => a.event.date.getTime() - b.event.date.getTime())
                             .filter((a) => a.event.date.getTime() >= new Date().getTime() )
-                            .map((meet) => {
+                            .map((meet, i) => {
                             return (
                                 <>
                                     <Grid item xs={12}>
-                                        <Event event={meet.event} doesAttend={meet.doesAttend}/>
+                                        <Event event={meet.event} doesAttend={meet.doesAttend} index={i}/>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider/>
@@ -124,11 +124,11 @@ const MeetsPage = () => {
                     <Grid container>
                         {meets.sort((a, b) => b.event.date.getTime() - a.event.date.getTime())
                             .filter((a) => a.event.date.getTime() < new Date().getTime() )
-                            .map((meet) => {
+                            .map((meet, i) => {
                                 return (
                                     <>
                                         <Grid item xs={12}>
-                                            <Event event={meet.event} doesAttend={meet.doesAttend}/>
+                                            <Event event={meet.event} doesAttend={meet.doesAttend} index={i} isDisabled={true}/>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <Divider/>
