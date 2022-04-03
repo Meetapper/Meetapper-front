@@ -6,6 +6,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import plLocale from "date-fns/locale/pl";
 import FriendsList from "../components/FriendsList";
+import MailIcon from '@mui/icons-material/Mail';
 
 const style = {
   position: 'absolute',
@@ -34,7 +35,13 @@ const EventCreation = () => {
         >
           <Paper sx={style}>
             <Typography>Invite friends</Typography>
-            <FriendsList />
+            <FriendsList userActionButton={
+              <Button
+                onClick={() => null} // send event invite here
+              >
+                <MailIcon />
+              </Button>
+            }/>
           </Paper>
         </Modal>
         <Grid container spacing={3} alignItems="center" justifyContent="center">

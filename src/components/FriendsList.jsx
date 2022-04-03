@@ -8,7 +8,9 @@ async function getUser(userId) {
   return await getDoc(docRef);
 }
 
-const FriendsList = () => {
+const FriendsList = ({
+  userActionButton
+}) => {
   const [user, setUser] = useState();
 
   useEffect(() => {
@@ -20,10 +22,10 @@ const FriendsList = () => {
 
   if(!friendIds?.length)
     return null;
-    
+
   return (
     <div>
-      {friendIds?.map(friend => <Friend key={friend} friend={friend}/>)}
+      {friendIds?.map(friend => <Friend key={friend} friend={friend} actionButton={userActionButton}/>)}
     </div>
   );
 }

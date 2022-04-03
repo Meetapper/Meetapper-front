@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import FriendsList from "../components/FriendsList";
-
+import MailIcon from '@mui/icons-material/Mail';
 import { Grid, TextField, Button } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel';
 import {collection, getDocs, query, where} from "firebase/firestore";
 import {db} from "../Firebase";
 import Friend from "../components/Friend";
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 async function searchUser(userName) {
     console.log(userName);
@@ -53,9 +54,21 @@ const Friends = () => {
             <Grid item>
                 {!search.length 
                 ? 
-                    <FriendsList />
+                    <FriendsList userActionButton={
+                        <Button
+                            onClick={() => null} // send event invite here
+                        >
+                            <PersonRemoveIcon />
+                        </Button>
+                    }/>
                 :
-                    searchRes?.map(friend => <Friend key={friend} friend={friend}/>)// search response users here
+                    searchRes?.map(friend => <Friend key={friend} friend={friend} actionButton={
+                        <Button
+                            onClick={() => null} // send event invite here
+                        >
+                            <MailIcon />
+                        </Button>
+                    }/>)// search response users here
                 }
             </Grid>
         </Grid>
