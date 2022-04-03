@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import HelpIcon from '@mui/icons-material/Help';
-import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
+import InfoIcon from '@mui/icons-material/Info';
 import {Link} from "react-router-dom";
 
 export function doestAttendToIcon(doesAttent) {
@@ -12,7 +12,7 @@ export function doestAttendToIcon(doesAttent) {
         case "yes": return <CheckCircleIcon sx={{ color: "#2e7d32"}}/>
         case "no": return <RemoveCircleIcon sx={{ color: "#d23a07"}}/>
         case "maybe": return <HelpIcon sx={{ color: "#ffcc00"}}/>
-        default: return <PanoramaFishEyeIcon sx={{ color: "gray"}}/>
+        default: return <InfoIcon sx={{ color: "gray"}}/>
     }
 }
 
@@ -21,7 +21,7 @@ export function doestAttendToIconLarge(doesAttent) {
         case "yes": return <CheckCircleIcon fontSize="large" sx={{ color: "#2e7d32"}}/>
         case "no": return <RemoveCircleIcon fontSize="large" sx={{ color: "#d23a07"}}/>
         case "maybe": return <HelpIcon fontSize="large" sx={{ color: "#ffcc00"}}/>
-        default: return <PanoramaFishEyeIcon fontSize="large" sx={{ color: "gray"}}/>
+        default: return <InfoIcon fontSize="large" sx={{ color: "gray"}}/>
     }
 }
 

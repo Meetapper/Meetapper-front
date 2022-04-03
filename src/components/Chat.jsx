@@ -6,12 +6,24 @@ import ChatMessage from "./ChatMessage";
 const mockMessages = [
     {
         message: "metr 90 prawie, siemanko",
+        name: 'Jakub Solecki',
         owner: false
     },
     {
         message: "xddddd",
+        name: 'You',
         owner: true
     },
+    {
+        message: "To lecimy dzisiaj?",
+        name: 'Kamil Ślimak',
+        owner: false
+    },
+    {
+        message: "pytasz dzika",
+        name: 'You',
+        owner: true
+    }
 ];
 
 const Chat = () => {

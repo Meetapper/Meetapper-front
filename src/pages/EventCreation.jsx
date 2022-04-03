@@ -23,7 +23,6 @@ const style = {
 };
 
 async function saveEvent(title, desc, date, location, participants) {
-  console.log(title, desc, date, location, participants)
   await addDoc(collection(db, 'meetings'), {
     title: title,
     description: desc,
@@ -41,7 +40,6 @@ const EventCreation = () => {
   const [eventLocation, setEventLocation] = useState('');
   const [participants, setParticipants] = useState([]);
 
-console.log(participants);
 
   return (
     <div>
@@ -55,14 +53,14 @@ console.log(participants);
             <FriendsList buttonAction={(friend) => {
                 if (!participants.includes(friend))
                   setParticipants([...participants, friend])
-              }} 
-              buttonIcon={<MailIcon />} 
+              }}
+              buttonIcon={<MailIcon />}
             />
           </Paper>
         </Modal>
         <Grid container spacing={3} alignItems="center" justifyContent="center">
           <Grid item xs={12}>
-            <TextField 
+            <TextField
               label="Event title"
               multiline
               value={eventTitle}
@@ -71,7 +69,7 @@ console.log(participants);
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField 
+            <TextField
               label="Event description"
               multiline
               value={eventDescription}
@@ -100,11 +98,11 @@ console.log(participants);
           <Grid item xs={12}>
             <Grid container justifyItems="center" justifySelf="center" justifyContent="center">
               <Grid item xs={6} >
-                <Button 
+                <Button
                   variant="outlined"
                   onClick={() => setOpenModal(true)}
                 >
-                  Invite friends 
+                  Invite friends
                   <GroupAddIcon sx={{ marginLeft: "10px" }} />
                 </Button>
               </Grid>
