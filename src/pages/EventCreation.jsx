@@ -7,7 +7,7 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import plLocale from "date-fns/locale/pl";
 import FriendsList from "../components/FriendsList";
 import MailIcon from '@mui/icons-material/Mail';
-import {doc, setDoc} from "firebase/firestore"
+import {addDoc, collection, doc, setDoc} from "firebase/firestore"
 import {db} from "../Firebase";
 
 const style = {
@@ -22,7 +22,8 @@ const style = {
 };
 
 async function saveEvent(title, desc, date, location, participants) {
-  await setDoc(doc(db, "meetings"), {
+  console.log(title, desc, date, location, participants)
+  await addDoc(collection(db, 'meetings'), {
     title: title,
     description: desc,
     date: date,
