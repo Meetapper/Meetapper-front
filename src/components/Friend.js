@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {doc, getDoc} from "firebase/firestore";
 import {db} from "../Firebase";
-import { Card, Grid } from "@mui/material";
+import { Card, Grid, Button } from "@mui/material";
 
 async function getUser(userId) {
     const docRef = doc(db, "users", userId);
@@ -10,7 +10,8 @@ async function getUser(userId) {
 
 const Friend = ({
     friend,
-    actionButton
+    action,
+    icon
 }) => {
     const [user, setUser] = useState();
 
@@ -30,7 +31,11 @@ const Friend = ({
                     {retrievedUser?.name}
                 </Grid>
                 <Grid item>
-                    {actionButton}
+                    <Button
+                        onClick={(friend) => action(friend)}
+                    >
+                        {icon}
+                    </Button>
                 </Grid>
             </Grid>
         </Card>);

@@ -21,7 +21,6 @@ async function searchUser(userName) {
     return retrievedUsers;
 }
 
-
 const Friends = () => {
     const [search, setSearch] = useState('');
     const [searchRes, setSearchRes] = useState([]);
@@ -54,21 +53,9 @@ const Friends = () => {
             <Grid item>
                 {!search.length 
                 ? 
-                    <FriendsList userActionButton={
-                        <Button
-                            onClick={() => null} // send event invite here
-                        >
-                            <PersonRemoveIcon />
-                        </Button>
-                    }/>
+                    <FriendsList buttonIcon={<PersonRemoveIcon />} buttonAction={() => null}/>
                 :
-                    searchRes?.map(friend => <Friend key={friend} friend={friend} actionButton={
-                        <Button
-                            onClick={() => null} // send event invite here
-                        >
-                            <MailIcon />
-                        </Button>
-                    }/>)// search response users here
+                    searchRes?.map(friend => <Friend key={friend} friend={friend} icon={<MailIcon />} action={() => null}/>)// search response users here
                 }
             </Grid>
         </Grid>

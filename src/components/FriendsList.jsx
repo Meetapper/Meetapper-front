@@ -9,7 +9,8 @@ async function getUser(userId) {
 }
 
 const FriendsList = ({
-  userActionButton
+  buttonAction,
+  buttonIcon
 }) => {
   const [user, setUser] = useState();
 
@@ -25,7 +26,7 @@ const FriendsList = ({
 
   return (
     <div>
-      {friendIds?.map(friend => <Friend key={friend} friend={friend} actionButton={userActionButton}/>)}
+      {friendIds?.map(friend => <Friend key={friend} friend={friend} action={buttonAction} icon={buttonIcon}/>)}
     </div>
   );
 }
