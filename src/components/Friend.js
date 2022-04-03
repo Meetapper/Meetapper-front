@@ -32,7 +32,7 @@ const Friend = ({
                 </Grid>
                 <Grid item>
                     <Button
-                        onClick={(friend) => action(friend)}
+                        onClick={() => action(friend)}
                     >
                         {icon}
                     </Button>

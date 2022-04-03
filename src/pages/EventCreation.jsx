@@ -37,7 +37,6 @@ const EventCreation = () => {
   const [openModal, setOpenModal] = useState(false);
   const [eventDate, setEventDate] = useState(new Date());
   const [eventLocation, setEventLocation] = useState('');
-  const [invited, setInvited] = useState([]);
   const [participants, setParticipants] = useState([]);
 
 console.log(participants);
@@ -51,7 +50,12 @@ console.log(participants);
         >
           <Paper sx={style}>
             <Typography>Invite friends</Typography>
-            <FriendsList buttonAction={(friend) => setParticipants([...participants, friend])} buttonIcon={<MailIcon />} />
+            <FriendsList buttonAction={(friend) => {
+                if (!participants.includes(friend))
+                  setParticipants([...participants, friend])
+              }} 
+              buttonIcon={<MailIcon />} 
+            />
           </Paper>
         </Modal>
         <Grid container spacing={3} alignItems="center" justifyContent="center">
@@ -117,7 +121,7 @@ console.log(participants);
                 </Grid>
               </Grid>
             <Grid item xs={12} sx={{ marginTop: '60px' }}>
-              { invited.size && <Typography>Invited friends:</Typography> }
+              { !!participants.length && <Typography>Invited friends: {participants.join(", ")}</Typography> }
             </Grid>
           </Grid>
         </Grid>
