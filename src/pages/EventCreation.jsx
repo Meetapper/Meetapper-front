@@ -63,18 +63,16 @@ const EventCreation = () => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={11}>
-            <Grid container direction="row" alignItems="center" justifyContent="center">
-              <Grid item xs={6}>
+          <Grid item xs={12}>
+            <Grid container justifyItems="center" justifySelf="center" justifyContent="center">
+              <Grid item xs={6} >
                 <Button 
                   variant="outlined"
                   onClick={() => setOpenModal(true)}
                 >
-                  Invite friends
+                  Invite friends 
+                  <GroupAddIcon sx={{ marginLeft: "10px" }} />
                 </Button>
-              </Grid>
-              <Grid item>
-                <GroupAddIcon />
               </Grid>
             </Grid>
             <Grid item xs={12} sx={{ marginTop: '60px' }}>
