@@ -7,6 +7,8 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import plLocale from "date-fns/locale/pl";
 import FriendsList from "../components/FriendsList";
 import MailIcon from '@mui/icons-material/Mail';
+import {doc, setDoc} from "firebase/firestore"
+import {db} from "../Firebase";
 
 const style = {
   position: 'absolute',
@@ -19,13 +21,24 @@ const style = {
   p: 4,
 };
 
+async function saveEvent(title, desc, date, location, participants) {
+  await setDoc(doc(db, "meetings"), {
+    title: title,
+    description: desc,
+    date: date,
+    participants: participants,
+    place: location
+  });
+}
+
 const EventCreation = () => {
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [eventDate, setEventDate] = useState(new Date());
+  const [eventLocation, setEventLocation] = useState('');
   const [invited, setInvited] = useState([]);
-
+  const participants = [];
   return (
     <div>
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={plLocale}>
@@ -73,6 +86,15 @@ const EventCreation = () => {
             />
           </Grid>
           <Grid item xs={12}>
+            <TextField
+                label="Event location"
+                multiline
+                value={eventLocation}
+                onChange={e => setEventLocation(e.target.value)}
+                fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
             <Grid container justifyItems="center" justifySelf="center" justifyContent="center">
               <Grid item xs={6} >
                 <Button 
@@ -84,10 +106,23 @@ const EventCreation = () => {
                 </Button>
               </Grid>
             </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container justifyItems="center" justifySelf="center" justifyContent="center">
+                <Grid item xs={6} >
+                  <Button
+                      variant="outlined"
+                      onClick={() => saveEvent(eventTitle, eventDescription, eventDate, eventLocation)}
+                  >
+                    Create Event
+                    <GroupAddIcon sx={{ marginLeft: "10px" }} />
+                  </Button>
+                </Grid>
+              </Grid>
             <Grid item xs={12} sx={{ marginTop: '60px' }}>
               { invited.size && <Typography>Invited friends:</Typography> }
             </Grid>
-          </Grid> 
+          </Grid>
         </Grid>
       </LocalizationProvider>
     </div>
