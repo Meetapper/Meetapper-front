@@ -5,6 +5,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import HelpIcon from '@mui/icons-material/Help';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
+import {Link} from "react-router-dom";
 
 const Event = ({event, doesAttend}) => {
 
@@ -20,22 +21,24 @@ const Event = ({event, doesAttend}) => {
     }
 
     return (
-        <Card elevation={0}>
-            <CardHeader
-                title={title}
-                // subheader={date.toLocaleString()}
-                action={
-                    <IconButton aria-label="settings">
-                        {doestAttendToIcon(doesAttend)}
-                    </IconButton>
-                }
-            />
-            <CardContent sx={{ marginTop: "-30px" }}>
-                <Typography variant="body2" color="text.secondary">
-                    {date.toLocaleString()} | {place}
-                </Typography>
-            </CardContent>
-        </Card>
+        <Link to={`/meeting/${id}`} style={{ textDecoration: "none" }}>
+            <Card elevation={0}>
+                <CardHeader
+                    title={title}
+                    // subheader={date.toLocaleString()}
+                    action={
+                        <IconButton aria-label="settings">
+                            {doestAttendToIcon(doesAttend)}
+                        </IconButton>
+                    }
+                />
+                <CardContent sx={{ marginTop: "-30px" }}>
+                    <Typography variant="body2" color="text.secondary">
+                        {date.toLocaleString()} | {place}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </Link>
     )
 }
 
