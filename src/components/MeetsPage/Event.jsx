@@ -31,7 +31,7 @@ const Event = ({event, doesAttend}) => {
     const {id, title, place, date, description, owner } = event
 
     return (
-        <Link to={`/meeting/${id}`} style={{ textDecoration: "none" }}>
+        <Link to={`/meeting/${id}`} style={{ textDecoration: "none" }} state={event}>
             <Card elevation={0}>
                 <CardHeader
                     title={title}
