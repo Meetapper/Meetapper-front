@@ -7,7 +7,8 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import plLocale from "date-fns/locale/pl";
 import FriendsList from "../components/FriendsList";
 import MailIcon from '@mui/icons-material/Mail';
-import {addDoc, collection, doc, setDoc} from "firebase/firestore"
+import {addDoc, collection } from "firebase/firestore"
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import {db} from "../Firebase";
 
 const style = {
@@ -80,7 +81,7 @@ console.log(participants);
           </Grid>
           <Grid item xs={12}>
             <DateTimePicker
-              label="Date&Time picker"
+              label="Event time"
               value={eventDate}
               onChange={(newDate) => setEventDate(newDate)}
               renderInput={(params) => <TextField fullWidth {...params} />}
@@ -117,7 +118,7 @@ console.log(participants);
                       onClick={() => saveEvent(eventTitle, eventDescription, eventDate, eventLocation, participants)}
                   >
                     Create Event
-                    <GroupAddIcon sx={{ marginLeft: "10px" }} />
+                    <EventAvailableIcon sx={{ marginLeft: "10px" }} />
                   </Button>
                 </Grid>
               </Grid>
