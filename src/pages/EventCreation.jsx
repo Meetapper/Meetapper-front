@@ -7,9 +7,10 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import plLocale from "date-fns/locale/pl";
 import FriendsList from "../components/FriendsList";
 import MailIcon from '@mui/icons-material/Mail';
-import {addDoc, collection } from "firebase/firestore"
+import {addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore"
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import {db} from "../Firebase";
+import {mainUserId} from "../MainUserId";
 
 const style = {
   position: 'absolute',
@@ -23,13 +24,26 @@ const style = {
 };
 
 async function saveEvent(title, desc, date, location, participants) {
-  await addDoc(collection(db, 'meetings'), {
+
+  const newMeetings = participants.push(mainUserId);
+  const docRef = await addDoc(collection(db, 'meetings'), {
     title: title,
     description: desc,
     date: date,
     participants: participants,
-    place: location
+    place: location,
+    owner: mainUserId
   });
+  const myId = docRef.id;
+  console.log(myId);
+  const userRef = doc(db, "users", mainUserId);
+  const user = await getDoc(userRef);
+  const userMeetings = user.data().meetings;
+  userMeetings[myId] = "";
+  console.log(userMeetings);
+  await updateDoc(userRef, {
+    meetings: userMeetings
+  })
 }
 
 const EventCreation = () => {
