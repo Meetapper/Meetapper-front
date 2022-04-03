@@ -30,11 +30,11 @@ const Friend = ({
             <Grid container alignItems="center"
                   justifyContent="space-between">
                 <Grid item>
-                    <Avatar sx={{bgcolor: stringToColour(retrievedUser?.name)}} alt={retrievedUser?.name.toUpperCase()}
+                    <Avatar sx={{bgcolor: stringToColour("h" + retrievedUser?.name)}} alt={retrievedUser?.name.toUpperCase() + "h"}
                             src="/static/images/avatar/2.jpg"/>
                 </Grid>
                 <Grid item>
-                    <Typography sx={{marginLeft: "-110px"}}>
+                    <Typography sx={{marginLeft: "-75px"}}>
                         {retrievedUser?.name}
                     </Typography>
                 </Grid>
