@@ -25,13 +25,13 @@ export function doestAttendToIconLarge(doesAttent) {
     }
 }
 
-const Event = ({event, doesAttend, index, isDisabled = false}) => {
+const Event = ({event, doesAttend, index, id, isDisabled = false}) => {
 
 
     const {title, place, date, description, owner } = event
 
     return (
-        <Link to={`/meeting/${index}`} style={{ textDecoration: "none" }} state={event}>
+        <Link to={`/meeting/${index}`} style={{ textDecoration: "none" }} state={{event: event, id: id}}>
             <Card elevation={0} sx={isDisabled ? {backgroundColor: "#e3e0e8", color: "#a3a0a8"} : {subColor: "red"}}>
                 <CardHeader
                     title={title}

@@ -13,19 +13,20 @@ import {useLocation} from "react-router-dom";
 // const title = "Biba u maćka";
 // const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 // const location = "location";
-const date = "01.04.2022";
+// const date = "01.04.2022";
 // const numOfPeople = "2/10";
 
 const MeetingSummary = () => {
     const [declare, setDeclare] = useState(0)
-    const { title, place: location, description } = useLocation().state;
+    const { title, place: location, description, date } = useLocation().state.event;
+    const eventId = useLocation().state.id;
 
     function setAttend(val) {
         setDeclare(val);
 
         //TODO call to send your declaration
     }
-console.log(useLocation(), location);
+console.log(eventId);
     return (
         <Grid container spacing={0.5}   alignItems="center" justify="center">
             <Grid container item xs={12}>
@@ -36,8 +37,8 @@ console.log(useLocation(), location);
                 </Grid>
 
                 <Grid container item xs={12} justifyContent="space-between">
-                    <Typography variant="h5">
-                        {date} | {location}
+                    <Typography variant="h6">
+                        {date.toLocaleString()} | {location}
                     </Typography>
                 </Grid>
             </Grid>

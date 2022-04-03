@@ -26,14 +26,14 @@ const Chat = () => {
     const [chatMessages, setChatMessages] = useState(mockMessages);
 
     return (
-        <Paper sx={{ height: "400px", marginTop: "15px" }}>
+        <Paper sx={{ height: "580px", marginTop: "15px" }} elevation={3}>
             <Box display="flex" flexDirection="column" sx={{ height: "100%" }}>
                 <Box flexGrow={2} sx={{padding: "10px"}}>
                     {chatMessages.map(message => <ChatMessage message={message} />)}
                 </Box>
                 <Box display="flex" justifyContent="center" alignContent="center">
                     <Box flexGrow={2}>
-                        <TextField 
+                        <TextField
                             variant="outlined"
                             value={message}
                             onChange={e => setMessage(e.target.value)}
