@@ -10,6 +10,7 @@ async function getUser(userId) {
     return await getDoc(docRef);
 }
 
+
 const Friend = ({
                     friend,
                     action,
@@ -19,7 +20,7 @@ const Friend = ({
 
     useEffect(() => {
         (async () => {
-            setUser(await getUser('hBTU6aa6BrKS33uuPypD'));
+            setUser(await getUser(friend));
         })()
     }, []);
 
