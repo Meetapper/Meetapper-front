@@ -12,16 +12,16 @@ import Meeting from './pages/Meeting';
 
 const theme = createTheme({
     palette: {
-        // mode: "light",
+        mode: "light",
           primary: {
-            main: "#661f31"
+            main: "#013243"
         },
         secondary: {
             main: "#000000",
         },
         background: {
-            default: "#f5f5f5",
-            paper: "#f5f5f5"
+            default: "#f3f0f8",
+            paper: "#f2f0f7"
         },
         // text: {
         //     primary: "rgba(173,186,199,1)",
