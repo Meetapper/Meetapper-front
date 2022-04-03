@@ -5,11 +5,11 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Divider, Grid } from "@mui/material";
+import {Divider, Grid} from "@mui/material";
 import Event from "../components/MeetsPage/Event";
-import {collection, doc, getDoc, query, where} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "../Firebase";
-
+import {mainUserId} from "../MainUserId";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -40,43 +40,39 @@ const eventMock = {
     owner: "Maćko z Bogdańca",
 }
 
-const mainUserId = "hBTU6aa6BrKS33uuPypD"
 
 async function getMeetsStatuses(myId) {
     const docRef = doc(db, "users", myId);
     return await getDoc(docRef);
 }
 
-async function getMeets(meetsIds) {
-    const docRef = doc (db, "meetings");
-    return getDoc(docRef, where("id", "in", meetsIds));
+function getMeets(meetsIds) {
+    const arr = [];
+    Object.keys(meetsIds).forEach((id) => {
+        const docRef = doc(db, "meetings", id);
+        getDoc(docRef).then((val) => {
+            arr.push(
+                {
+                    event: {...val.data(), date: new Date(val.data().date.seconds * 1000)},
+                    doesAttend: meetsIds[id]
+                }
+            )
+        })
+    })
+    return arr;
 }
 
 const MeetsPage = () => {
-    const [meetsToStatuses, setMeetsToStatuses] = useState();
-    useEffect(() => {
-        (async () => {
-            setMeetsToStatuses(await getMeetsStatuses(mainUserId));
-        })()
-    }, [])
-    console.log(meetsToStatuses);
-    const meets = meetsToStatuses?.data().meetings;
-    console.log(meets);
-    // meets.foreach(it => console.log(it))
+    const [meets, setMeets] = useState([]);
 
-    // const meetsIds = Array.from(Object.keys(meets));
-    // Object.keys(meets).forEach((key) => {
-    //     console.log(key)
-    // })
-    // console.log(meetsIds);
-    // const [meetings, setMeetings] = useState();
-    // useEffect(() => {
-    //     (async () => {
-    //         setMeetings(await getMeets(meetsIds));
-    //     })()
-    // }, [])
-    // const meetsData = meetings?.data().meetings;
-    // console.log(meetsData);
+    useEffect(() => {
+        getMeetsStatuses(mainUserId).then(async (tmp) => {
+            const arr = getMeets(tmp.data().meetings);
+            await new Promise(r => setTimeout(r, 100));
+            setMeets(arr);
+        })
+    }, [])
+
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
 
@@ -90,19 +86,6 @@ const MeetsPage = () => {
 
     return (
         <div>
-            {/*<Box sx={{ bgcolor: 'background.paper' }}>*/}
-            {/*    <TextField />*/}
-            {/*<Accordion elevation={0}>*/}
-            {/*    <AccordionSummary expandIcon={<ExpandMoreIcon />}>*/}
-            {/*        <Typography>Advanced filters</Typography>*/}
-            {/*    </AccordionSummary>*/}
-            {/*    <AccordionDetails>*/}
-            {/*        <Typography>*/}
-            {/*            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse*/}
-            {/*            malesuada lacus ex, sit amet blandit leo lobortis eget.*/}
-            {/*        </Typography>*/}
-            {/*    </AccordionDetails>*/}
-            {/*</Accordion>*/}
             <Tabs
                 value={value}
                 onChange={handleChange}
@@ -121,37 +104,39 @@ const MeetsPage = () => {
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <Grid container>
-                        <Grid item xs={12}>
-                            <Event event={eventMock} doesAttend={"yes"}/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Divider/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Event event={eventMock} doesAttend={"no"}/>
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <Divider/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Event event={eventMock} doesAttend={"maybe"}/>
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <Divider/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Event event={eventMock} doesAttend={"lkjlkj"}/>
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <Divider/>
-                        </Grid>
+                        {meets.sort((a, b) => a.event.date.getTime() - b.event.date.getTime())
+                            .filter((a) => a.event.date.getTime() >= new Date().getTime() )
+                            .map((meet) => {
+                            return (
+                                <>
+                                    <Grid item xs={12}>
+                                        <Event event={meet.event} doesAttend={meet.doesAttend}/>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Divider/>
+                                    </Grid>
+                                </>
+                            )
+                        })}
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <Event event={eventMock}/>
+                    <Grid container>
+                        {meets.sort((a, b) => b.event.date.getTime() - a.event.date.getTime())
+                            .filter((a) => a.event.date.getTime() < new Date().getTime() )
+                            .map((meet) => {
+                                return (
+                                    <>
+                                        <Grid item xs={12}>
+                                            <Event event={meet.event} doesAttend={meet.doesAttend}/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Divider/>
+                                        </Grid>
+                                    </>
+                                )
+                            })}
+                    </Grid>
                 </TabPanel>
             </SwipeableViews>
             {/*</Box>*/}
