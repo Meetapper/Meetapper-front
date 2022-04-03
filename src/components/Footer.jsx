@@ -21,11 +21,11 @@ const Footer = () => {
                     setValue(newValue);
                 }}
             >
-                <BottomNavigationAction label="Settings" icon={<SettingsIcon />} component={Link} to="/meets" />
+                {/*<BottomNavigationAction label="Settings" icon={<SettingsIcon />} component={Link} to="/meets" />*/}
                 <BottomNavigationAction label="Friends" icon={<PeopleIcon />} component={Link} to="/friends" />
                 <BottomNavigationAction label="Create" icon={<AddCircleIcon fontSize={"large"}/>} component={Link} to="/create-event" />
                 <BottomNavigationAction label="Meets" icon={<EventNoteIcon />} component={Link} to="/meets" />
-                <BottomNavigationAction label="Alerts" icon={<NotificationsIcon />} component={Link} to="/meets" />
+                {/*<BottomNavigationAction label="Alerts" icon={<NotificationsIcon />} component={Link} to="/meets" />*/}
             </BottomNavigation>
         </Paper>
     );

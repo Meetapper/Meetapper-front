@@ -31,16 +31,6 @@ function TabPanel(props) {
     );
 }
 
-const eventMock = {
-    id: "1",
-    title: "Git impra u Adama",
-    place: "Domek letniskowy Maćka",
-    date: new Date("2021-01-01T12:00:00-04:00"),
-    description: "To co zwykle",
-    owner: "Maćko z Bogdańca",
-}
-
-
 async function getMeetsStatuses(myId) {
     const docRef = doc(db, "users", myId);
     return await getDoc(docRef);
@@ -54,7 +44,8 @@ function getMeets(meetsIds) {
             arr.push(
                 {
                     event: {...val.data(), date: new Date(val.data().date.seconds * 1000)},
-                    doesAttend: meetsIds[id]
+                    doesAttend: meetsIds[id],
+                    id: id
                 }
             )
         })
@@ -68,7 +59,7 @@ const MeetsPage = () => {
     useEffect(() => {
         getMeetsStatuses(mainUserId).then(async (tmp) => {
             const arr = getMeets(tmp.data().meetings);
-            await new Promise(r => setTimeout(r, 100));
+            await new Promise(r => setTimeout(r, 150));
             setMeets(arr);
         })
     }, [])
@@ -106,11 +97,11 @@ const MeetsPage = () => {
                     <Grid container>
                         {meets.sort((a, b) => a.event.date.getTime() - b.event.date.getTime())
                             .filter((a) => a.event.date.getTime() >= new Date().getTime() )
-                            .map((meet) => {
+                            .map((meet, i) => {
                             return (
                                 <>
                                     <Grid item xs={12}>
-                                        <Event event={meet.event} doesAttend={meet.doesAttend}/>
+                                        <Event event={meet.event} doesAttend={meet.doesAttend} id={meet.id} index={i}/>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider/>
@@ -124,11 +115,11 @@ const MeetsPage = () => {
                     <Grid container>
                         {meets.sort((a, b) => b.event.date.getTime() - a.event.date.getTime())
                             .filter((a) => a.event.date.getTime() < new Date().getTime() )
-                            .map((meet) => {
+                            .map((meet, i) => {
                                 return (
                                     <>
                                         <Grid item xs={12}>
-                                            <Event event={meet.event} doesAttend={meet.doesAttend}/>
+                                            <Event event={meet.event} doesAttend={meet.doesAttend} id={meet.id} index={i} isDisabled={true}/>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <Divider/>

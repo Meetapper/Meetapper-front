@@ -25,17 +25,17 @@ export function doestAttendToIconLarge(doesAttent) {
     }
 }
 
-const Event = ({event, doesAttend}) => {
+const Event = ({event, doesAttend, index, id, isDisabled = false}) => {
 
 
-    const {id, title, place, date, description, owner } = event
+    const {title, place, date, description, owner } = event
 
     return (
-        <Link to={`/meeting/${id}`} style={{ textDecoration: "none" }} state={event}>
-            <Card elevation={0}>
+        <Link to={`/meeting/${index}`} style={{ textDecoration: "none" }} state={{event: event, id: id}}>
+            <Card elevation={0} sx={isDisabled ? {backgroundColor: "#e3e0e8", color: "#a3a0a8"} : {subColor: "red"}}>
                 <CardHeader
                     title={title}
-                    // subheader={date.toLocaleString()}
+                    subheader={date.getDay() === new Date().getDay() && !isDisabled ? <Typography sx={{color: "red"}}>TODAY!</Typography> : ""}
                     action={
                         <IconButton aria-label="settings">
                             {doestAttendToIconLarge(doesAttend)}
@@ -43,7 +43,7 @@ const Event = ({event, doesAttend}) => {
                     }
                 />
                 <CardContent sx={{ marginTop: "-30px" }}>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2">
                         {date.toLocaleString()} | {place}
                     </Typography>
                 </CardContent>
