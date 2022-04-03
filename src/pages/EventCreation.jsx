@@ -37,8 +37,10 @@ const EventCreation = () => {
   const [openModal, setOpenModal] = useState(false);
   const [eventDate, setEventDate] = useState(new Date());
   const [eventLocation, setEventLocation] = useState('');
-  const [invited, setInvited] = useState([]);
-  const participants = [];
+  const [participants, setParticipants] = useState([]);
+
+console.log(participants);
+
   return (
     <div>
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={plLocale}>
@@ -48,13 +50,12 @@ const EventCreation = () => {
         >
           <Paper sx={style}>
             <Typography>Invite friends</Typography>
-            <FriendsList userActionButton={
-              <Button
-                onClick={() => null} // send event invite here
-              >
-                <MailIcon />
-              </Button>
-            }/>
+            <FriendsList buttonAction={(friend) => {
+                if (!participants.includes(friend))
+                  setParticipants([...participants, friend])
+              }} 
+              buttonIcon={<MailIcon />} 
+            />
           </Paper>
         </Modal>
         <Grid container spacing={3} alignItems="center" justifyContent="center">
@@ -112,7 +113,7 @@ const EventCreation = () => {
                 <Grid item xs={6} >
                   <Button
                       variant="outlined"
-                      onClick={() => saveEvent(eventTitle, eventDescription, eventDate, eventLocation)}
+                      onClick={() => saveEvent(eventTitle, eventDescription, eventDate, eventLocation, participants)}
                   >
                     Create Event
                     <GroupAddIcon sx={{ marginLeft: "10px" }} />
@@ -120,7 +121,7 @@ const EventCreation = () => {
                 </Grid>
               </Grid>
             <Grid item xs={12} sx={{ marginTop: '60px' }}>
-              { invited.size && <Typography>Invited friends:</Typography> }
+              { !!participants.length && <Typography>Invited friends: {participants.join(", ")}</Typography> }
             </Grid>
           </Grid>
         </Grid>
