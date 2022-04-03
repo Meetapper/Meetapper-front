@@ -5,13 +5,14 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import plLocale from "date-fns/locale/pl";
+import FriendsList from "../components/FriendsList";
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 350,
+  width: 380,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -33,6 +34,7 @@ const EventCreation = () => {
         >
           <Paper sx={style}>
             <Typography>Invite friends</Typography>
+            <FriendsList />
           </Paper>
         </Modal>
         <Grid container spacing={3} alignItems="center" justifyContent="center">
