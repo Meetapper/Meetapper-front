@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import FriendsList from "../components/FriendsList";
 
 import { Grid, TextField, Button } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel';
+import {collection, getDocs, query, where} from "firebase/firestore";
+import {db} from "../Firebase";
+import Friend from "../components/Friend";
+
+async function searchUser(userName) {
+    console.log(userName);
+    const q = query(collection(db, "users"), where("name", "==", userName));
+    const retrievedUsers = [];
+    await getDocs(q).then(usr => {
+        console.log(usr);
+        usr.forEach(result => {
+            retrievedUsers.push(result.data());
+        })
+    })
+    return retrievedUsers;
+}
+
 
 const Friends = () => {
     const [search, setSearch] = useState('');
+    const [searchRes, setSearchRes] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            setSearchRes(await searchUser(search));
+        })()
+    }, [search]);
 
     return (
         <Grid container direction="column">
@@ -31,7 +55,7 @@ const Friends = () => {
                 ? 
                     <FriendsList />
                 :
-                    [] // search response users here
+                    searchRes?.map(friend => <Friend key={friend} friend={friend}/>)// search response users here
                 }
             </Grid>
         </Grid>
