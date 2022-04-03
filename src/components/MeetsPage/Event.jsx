@@ -31,7 +31,7 @@ const Event = ({event, doesAttend, index, isDisabled = false}) => {
     const {title, place, date, description, owner } = event
 
     return (
-        <Link to={`/meeting/${index}`} style={{ textDecoration: "none" }}>
+        <Link to={`/meeting/${index}`} style={{ textDecoration: "none" }} state={event}>
             <Card elevation={0} sx={isDisabled ? {backgroundColor: "#e3e0e8", color: "#a3a0a8"} : {subColor: "red"}}>
                 <CardHeader
                     title={title}

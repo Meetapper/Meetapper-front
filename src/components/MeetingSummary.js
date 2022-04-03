@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import {Avatar, Badge, Button, ButtonGroup, Grid, Typography} from "@mui/material"
-import PeopleIcon from '@mui/icons-material/People';
+import { Button, ButtonGroup, Grid, Typography} from "@mui/material"
 import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
@@ -9,23 +8,24 @@ import HelpIcon from '@mui/icons-material/Help';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {AvatarGroup} from "@mui/lab";
 import FriendAvatar from "./FriendAvatar";
+import {useLocation} from "react-router-dom";
 
-const title = "Biba u maćka";
-const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-const location = "location";
+// const title = "Biba u maćka";
+// const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+// const location = "location";
 const date = "01.04.2022";
-const numOfPeople = "2/10";
+// const numOfPeople = "2/10";
 
 const MeetingSummary = () => {
-
     const [declare, setDeclare] = useState(0)
+    const { title, place: location, description } = useLocation().state;
 
     function setAttend(val) {
         setDeclare(val);
 
         //TODO call to send your declaration
     }
-
+console.log(useLocation(), location);
     return (
         <Grid container spacing={0.5}   alignItems="center" justify="center">
             <Grid container item xs={12}>
