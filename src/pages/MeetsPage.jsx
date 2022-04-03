@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import {useTheme} from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Divider, Grid } from "@mui/material";
 import Event from "../components/MeetsPage/Event";
+import {collection, doc, getDoc, query, where} from "firebase/firestore";
+import {db} from "../Firebase";
 
 
 function TabPanel(props) {
@@ -29,7 +31,6 @@ function TabPanel(props) {
     );
 }
 
-
 const eventMock = {
     id: "1",
     title: "Git impra u Adama",
@@ -39,8 +40,43 @@ const eventMock = {
     owner: "Maćko z Bogdańca",
 }
 
+const mainUserId = "hBTU6aa6BrKS33uuPypD"
+
+async function getMeetsStatuses(myId) {
+    const docRef = doc(db, "users", myId);
+    return await getDoc(docRef);
+}
+
+async function getMeets(meetsIds) {
+    const docRef = doc (db, "meetings");
+    return getDoc(docRef, where("id", "in", meetsIds));
+}
 
 const MeetsPage = () => {
+    const [meetsToStatuses, setMeetsToStatuses] = useState();
+    useEffect(() => {
+        (async () => {
+            setMeetsToStatuses(await getMeetsStatuses(mainUserId));
+        })()
+    }, [])
+    console.log(meetsToStatuses);
+    const meets = meetsToStatuses?.data().meetings;
+    console.log(meets);
+    // meets.foreach(it => console.log(it))
+
+    // const meetsIds = Array.from(Object.keys(meets));
+    // Object.keys(meets).forEach((key) => {
+    //     console.log(key)
+    // })
+    // console.log(meetsIds);
+    // const [meetings, setMeetings] = useState();
+    // useEffect(() => {
+    //     (async () => {
+    //         setMeetings(await getMeets(meetsIds));
+    //     })()
+    // }, [])
+    // const meetsData = meetings?.data().meetings;
+    // console.log(meetsData);
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
 
